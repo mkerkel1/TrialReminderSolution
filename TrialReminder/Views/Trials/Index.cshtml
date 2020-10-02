@@ -1,12 +1,10 @@
-﻿@model List<Trial>
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using TrialReminder.Models.Trials
+@model TrialsSummaryModel
+
 @{
 }
 <h2>Your Trials</h2>
-<ul>
-    @foreach(var trial in Model)
+    @foreach(var trial in Model.Trials)
     {
     <div class="card">
 
@@ -17,11 +15,14 @@
             <h6 class="card-subtitle mb-2 text-muted">You have a trial at @trial.ServiceName</h6>
 
             <h6 class="card-subtitle mb-2 text-muted">They are at @trial.Url</h6>
-            @if(trial.StartDate.HasValue)
+            @if (trial.HasStartDate)
             {
-                <p>Your trial started on @trial.StartDate.Value.ToShortDateString()</p>
+                <p>Your trial started on @trial.StartDate.ToShortDateString()</p>
             }
-
+            @if (trial.HasEndDate)
+            {
+                <p>Your trial ends on @trial.EndDate.ToShortDateString() (@trial.DaysLeft)</p>
+            }
             <a href="#" class="card-link">Card link</a>
 
             <a href="#" class="card-link">Another link</a>
@@ -29,5 +30,13 @@
         </div>
 
     </div>
+    
     }
-</ul>
+<div class="alert alert-info">
+    <h4>You have @Model.NumberOfCurrentTrials current trials.</h4>
+    <h4>You have @Model.NumberOfExpiredTrials expired trials.</h4>
+</div>
+
+<div>
+    <a class="btn btn-primary" asp-controller="Trials" asp-action="New">Add Another Service</a>
+</div>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrialReminder.Models;
+using TrialReminder.Profiles;
 
 namespace TrialReminder
 {
@@ -29,6 +31,13 @@ namespace TrialReminder
             {
                 options.UseSqlServer(Configuration.GetConnectionString("trials"));
             });
+            MapperConfiguration mapperConfiguration = new MapperConfiguration(options =>
+              {
+                  options.AddProfile(new TrialsProfile());
+              });
+            IMapper mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton<IMapper>(mapper);
+            services.AddSingleton<MapperConfiguration>(mapperConfiguration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
