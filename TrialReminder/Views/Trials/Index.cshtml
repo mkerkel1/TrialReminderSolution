@@ -1,0 +1,33 @@
+﻿@model List<Trial>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h2>Your Trials</h2>
+<ul>
+    @foreach(var trial in Model)
+    {
+    <div class="card">
+
+        <div class="card-body">
+
+            <h5 class="card-title">@trial.ServiceName</h5>
+
+            <h6 class="card-subtitle mb-2 text-muted">You have a trial at @trial.ServiceName</h6>
+
+            <h6 class="card-subtitle mb-2 text-muted">They are at @trial.Url</h6>
+            @if(trial.StartDate.HasValue)
+            {
+                <p>Your trial started on @trial.StartDate.Value.ToShortDateString()</p>
+            }
+
+            <a href="#" class="card-link">Card link</a>
+
+            <a href="#" class="card-link">Another link</a>
+
+        </div>
+
+    </div>
+    }
+</ul>
