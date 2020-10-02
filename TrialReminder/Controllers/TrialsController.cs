@@ -55,5 +55,16 @@ namespace TrialReminder.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var trial = await _context.Trials.SingleOrDefaultAsync(x => x.Id == id);
+            if(trial!=null)
+            {
+                _context.Trials.Remove(trial);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
